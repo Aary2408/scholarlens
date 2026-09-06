@@ -17,7 +17,7 @@ function AuthPanel({ session, onSession }) {
   const supabase = createClient();
   async function sendLink(event) {
     event.preventDefault(); setBusy(true);
-    const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: window.location.origin } });
+    const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: `${window.location.origin}/auth/callback` } });
     setMessage(error ? error.message : "Check your inbox for your magic link."); setBusy(false);
   }
   if (session) return <div className="flex items-center gap-3 text-sm"><span className="hidden max-w-[180px] truncate text-muted-foreground sm:inline">{session.user?.email}</span><Button variant="outline" size="sm" onClick={async () => { await supabase.auth.signOut(); onSession(null); }}>Sign out</Button></div>;
