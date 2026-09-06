@@ -106,7 +106,14 @@ gtag('config', 'G-L7M0XLQZS9');`}
         <Script id="ld-organization" type="application/ld+json" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
         <Script id="ld-website" type="application/ld+json" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }} />
       </head>
-      <body>{children}<CookieNotice /></body>
+      <body>{children}<CookieNotice />
+      <Script
+  async
+  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9144354248628915"
+  crossOrigin="anonymous"
+  strategy="afterInteractive"
+/> 
+</body>
     </html>
   );
 }
