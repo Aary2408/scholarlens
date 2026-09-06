@@ -86,6 +86,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <head>
         <meta name="google-adsense-account" content="ca-pub-9144354248628915" />
+        <meta name="google-site-verification" content="pf09C0s-IixLwKGWn98aCFH_c0oTVH15L4TOkS8q74U" />
         <Script
           async
           strategy="afterInteractive"
