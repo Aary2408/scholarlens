@@ -5,9 +5,18 @@ import ReaderPanel from "./reader-panel";
 export const revalidate = 3600;
 
 async function loadPaper(id) {
-  const base = process.env.NEXT_PUBLIC_BASE_URL || "";
-  const response = await fetch(`${base}/api/paper?id=${encodeURIComponent(id)}`, { next: { revalidate: 3600 } });
+  const base =
+    process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
+  const response = await fetch(
+    `${base}/api/paper?id=${encodeURIComponent(id)}`,
+    { next: { revalidate: 3600 } }
+  );
+
   if (!response.ok) return null;
+
   const payload = await response.json();
   return payload.paper || null;
 }
