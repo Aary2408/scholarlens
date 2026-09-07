@@ -1,6 +1,7 @@
 export default function robots() {
   const base =
-    process.env.NEXT_PUBLIC_BASE_URL || "https://scholarlens-iota.vercel.app";
+    process.env.NEXT_PUBLIC_BASE_URL ||
+    "https://scholarlens-iota.vercel.app";
 
   return {
     rules: [
@@ -11,6 +12,5 @@ export default function robots() {
       },
     ],
     sitemap: `${base}/sitemap.xml`,
-    host: base,
   };
 }
