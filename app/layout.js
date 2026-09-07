@@ -2,7 +2,7 @@ import "./globals.css";
 import Script from "next/script";
 import CookieNotice from "@/components/CookieNotice";
 
-const SITE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://scholarlens.app";
+const SITE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://scholarlens-iota.vercel.app";
 const SITE_NAME = "ScholarLens";
 const DEFAULT_TITLE = "ScholarLens — Search real research papers with an AI reading assistant";
 const DEFAULT_DESCRIPTION = "Search millions of real academic papers on ScholarLens. Read papers with an AI assistant that explains passages, defines jargon, and summarizes sections in plain language.";

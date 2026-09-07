@@ -1,7 +1,17 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import ReaderPanel from "./reader-panel";
+import { researchTopics } from "@/lib/research-topics";
 
 export const revalidate = 3600;
+
+const SITE_URL =
+  process.env.NEXT_PUBLIC_BASE_URL ||
+  "https://scholarlens-iota.vercel.app";
+
+function paperUrl(id) {
+  return `${SITE_URL}/paper/${encodeURIComponent(id)}`;
+}
 
 async function loadPaper(id) {
   try {
@@ -38,6 +48,16 @@ async function loadPaper(id) {
       .map((authorship) => authorship?.author?.display_name)
       .filter(Boolean);
 
+    const topics = (work?.topics || [])
+      .map((topic) => topic?.display_name)
+      .filter(Boolean)
+      .slice(0, 8);
+    const concepts = (work?.concepts || [])
+      .sort((a, b) => (b?.score || 0) - (a?.score || 0))
+      .map((concept) => concept?.display_name)
+      .filter(Boolean)
+      .slice(0, 8);
+
     const isOpenAccess = Boolean(work?.open_access?.is_oa);
 
     return {
@@ -63,6 +83,9 @@ async function loadPaper(id) {
         (isOpenAccess ? "green" : "closed"),
       landing_page_url: primaryLocation?.landing_page_url || null,
       doi: work?.doi || null,
+      topics,
+      concepts,
+      related_work_ids: (work?.related_works || []).filter(Boolean).slice(0, 3),
     };
   } catch (error) {
     console.error("Paper page load failed:", error);
@@ -91,15 +114,17 @@ export async function generateMetadata({ params }) {
 
   const authorsShort = (paper.authors || []).slice(0, 3).join(", ");
 
-  const description = paper.abstract
-    ? truncate(paper.abstract, 180)
-    : `A ${paper.year || ""} paper${
+  const description = `Explore ${paper.title}, a research paper${
+    paper.year ? ` from ${paper.year}` : ""
+  }${
         paper.venue && paper.venue !== "Unpublished venue"
           ? ` published in ${paper.venue}`
           : ""
-      }${authorsShort ? ` by ${authorsShort}` : ""}.`;
+      }${authorsShort ? ` by ${authorsShort}` : ""}. ${
+    paper.abstract ? truncate(paper.abstract, 110) : "Read the available paper details and research context on ScholarLens."
+  }`;
 
-  const canonical = `/paper/${encodeURIComponent(paper.id)}`;
+  const canonical = paperUrl(paper.id);
 
   const keywords = [
     ...(paper.title || "")
@@ -113,14 +138,14 @@ export async function generateMetadata({ params }) {
   ].filter(Boolean);
 
   return {
-    title: paper.title,
+    title: `${paper.title} — Research Paper`,
     description,
     keywords,
     authors: (paper.authors || []).map((name) => ({ name })),
     alternates: { canonical },
     openGraph: {
       type: "article",
-      title: paper.title,
+      title: `${paper.title} — Research Paper | ScholarLens`,
       description,
       url: canonical,
       publishedTime: paper.year
@@ -135,6 +160,47 @@ export async function generateMetadata({ params }) {
       description,
     },
   };
+}
+
+function topicLinks(paper) {
+  const names = [...(paper.topics || []), ...(paper.concepts || [])];
+  return names
+    .map((name) => researchTopics.find((topic) => topic.name.toLowerCase() === name.toLowerCase()))
+    .filter((topic, index, matches) => topic && matches.findIndex((item) => item.slug === topic.slug) === index)
+    .slice(0, 4);
+}
+
+function PaperSeoContent({ paper }) {
+  const topics = topicLinks(paper);
+  const relatedWorks = (paper.related_work_ids || []).filter((id) => id !== paper.id);
+
+  return (
+    <section className="container max-w-5xl border-t border-border/60 py-10">
+      <h2 className="text-2xl font-semibold tracking-[-0.03em]">About this research paper</h2>
+      {paper.abstract ? <p className="mt-4 max-w-4xl text-base leading-8 text-foreground/80">{paper.abstract}</p> : null}
+      {topics.length ? (
+        <div className="mt-7">
+          <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-muted-foreground">Research topics</h3>
+          <div className="mt-3 flex flex-wrap gap-3">
+            {topics.map((topic) => <Link key={topic.slug} href={`/research-topics/${topic.slug}`} className="text-sm font-medium text-primary hover:underline">{topic.name}</Link>)}
+          </div>
+        </div>
+      ) : null}
+      {paper.concepts?.length ? <p className="mt-5 text-sm leading-6 text-muted-foreground"><span className="font-medium text-foreground">Key concepts:</span> {paper.concepts.join(", ")}</p> : null}
+      {relatedWorks.length ? (
+        <div className="mt-7">
+          <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-muted-foreground">Related papers</h3>
+          <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
+            {relatedWorks.map((id, index) => <Link key={id} href={`/paper/${encodeURIComponent(id)}`} className="text-sm font-medium text-primary hover:underline">Related paper {index + 1}</Link>)}
+          </div>
+        </div>
+      ) : null}
+      <div className="mt-7 flex flex-wrap gap-5 text-sm font-medium">
+        <Link href="/" className="text-primary hover:underline">Back to paper search</Link>
+        <Link href="/research-topics" className="text-primary hover:underline">Browse research topics</Link>
+      </div>
+    </section>
+  );
 }
 
 export default async function PaperPage({ params }) {
@@ -163,17 +229,8 @@ export default async function PaperPage({ params }) {
         : undefined,
     citation: paper.doi || undefined,
     identifier: paper.doi || paper.openalex_id || paper.id,
-    url: paper.oa_url || paper.oa_pdf_url || undefined,
-    isAccessibleForFree: Boolean(
-      paper.is_open_access ?? paper.oa_pdf_url
-    ),
-    citationCount: paper.citation_count || 0,
-    inLanguage: "en",
-    keywords: (paper.title || "")
-      .split(/\s+/)
-      .filter((word) => word.length > 3)
-      .slice(0, 8)
-      .join(", "),
+    description: paper.abstract ? truncate(paper.abstract, 300) : undefined,
+    url: paperUrl(paper.id),
   };
 
   return (
@@ -186,6 +243,7 @@ export default async function PaperPage({ params }) {
       />
 
       <ReaderPanel paper={paper} />
+      <PaperSeoContent paper={paper} />
     </>
   );
 }
