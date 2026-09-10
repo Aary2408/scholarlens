@@ -23,6 +23,7 @@ export const metadata = {
 const packages = [
   {
     name: "Starter",
+    requestPackage: "starter",
     price: "₹199 / $5",
     description: "A focused starting point for a defined topic or early project idea.",
     items: [
@@ -34,6 +35,7 @@ const packages = [
   },
   {
     name: "Research Pack",
+    requestPackage: "research-pack",
     price: "₹399 / $10",
     label: "Most Popular",
     description: "A structured overview for comparing a broader body of literature.",
@@ -48,6 +50,7 @@ const packages = [
   },
   {
     name: "Deep Dive",
+    requestPackage: "deep-dive",
     price: "₹799 / $20",
     description: "A broader research landscape and planning document for a developed question.",
     items: [
@@ -97,7 +100,7 @@ export default function ResearchServicesPage() {
 
       <section className="container max-w-5xl py-16"><SectionHeading eyebrow="How it works" title="A practical path from question to research plan." /><div className="mt-10 grid gap-8 md:grid-cols-3">{[["01", "Tell us your topic", "Share your research question, project idea, or topic."], ["02", "We research the literature", "We identify relevant academic papers, themes, methods, and research directions."], ["03", "Receive your research pack", "You receive a structured research document tailored to your topic."]].map(([number, title, text]) => <div key={number} className="border-t-2 border-primary pt-5"><p className="text-sm font-semibold text-muted-foreground">{number}</p><h3 className="mt-5 text-xl font-semibold">{title}</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">{text}</p></div>)}</div></section>
 
-      <section id="pricing" className="border-y border-border/60 bg-muted/20"><div className="container max-w-6xl py-16"><SectionHeading eyebrow="Research packs" title="Choose the level of support that fits your question." /><div className="mt-8"><p className="text-sm font-semibold text-foreground">Student Launch Pricing</p><p className="mt-1 text-sm leading-6 text-muted-foreground">Introductory pricing while ScholarLens is growing.</p><p className="mt-4 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">India and international pricing shown together</p></div><div className="mt-6 grid gap-5 lg:grid-cols-3">{packages.map((item) => <article key={item.name} className={`relative flex flex-col rounded-lg border bg-card p-6 ${item.label ? "border-primary shadow-sm" : "border-border"}`}>{item.label ? <span className="absolute right-5 top-5 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">{item.label}</span> : null}<h3 className="pr-24 text-lg font-semibold">{item.name}</h3><p className="mt-5 text-3xl font-semibold tracking-[-0.04em]">{item.price}</p><p className="mt-3 min-h-14 text-sm leading-6 text-muted-foreground">{item.description}</p><ul className="mt-6 flex-1 space-y-3 border-t border-border pt-6 text-sm leading-6 text-foreground/80">{item.items.map((feature) => <li key={feature} className="flex gap-2"><span className="text-primary" aria-hidden="true">✓</span><span>{feature}</span></li>)}</ul><Link href="/contact" className="mt-8 inline-flex min-h-10 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:opacity-90">{item.cta}</Link></article>)}</div><p className="mt-8 text-center text-sm leading-6 text-muted-foreground">These services support research discovery and planning. They do not replace independent academic work, expert supervision, or institutional requirements.</p></div></section>
+      <section id="pricing" className="border-y border-border/60 bg-muted/20"><div className="container max-w-6xl py-16"><SectionHeading eyebrow="Research packs" title="Choose the level of support that fits your question." /><div className="mt-8"><p className="text-sm font-semibold text-foreground">Student Launch Pricing</p><p className="mt-1 text-sm leading-6 text-muted-foreground">Introductory pricing while ScholarLens is growing.</p><p className="mt-4 text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">India and international pricing shown together</p></div><div className="mt-6 grid gap-5 lg:grid-cols-3">{packages.map((item) => <article key={item.name} className={`relative flex flex-col rounded-lg border bg-card p-6 ${item.label ? "border-primary shadow-sm" : "border-border"}`}>{item.label ? <span className="absolute right-5 top-5 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">{item.label}</span> : null}<h3 className="pr-24 text-lg font-semibold">{item.name}</h3><p className="mt-5 text-3xl font-semibold tracking-[-0.04em]">{item.price}</p><p className="mt-3 min-h-14 text-sm leading-6 text-muted-foreground">{item.description}</p><ul className="mt-6 flex-1 space-y-3 border-t border-border pt-6 text-sm leading-6 text-foreground/80">{item.items.map((feature) => <li key={feature} className="flex gap-2"><span className="text-primary" aria-hidden="true">✓</span><span>{feature}</span></li>)}</ul><Link href={`/research-services/request?package=${item.requestPackage}`} className="mt-8 inline-flex min-h-10 items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:opacity-90">{item.cta}</Link></article>)}</div><p className="mt-8 text-center text-sm leading-6 text-muted-foreground">These services support research discovery and planning. They do not replace independent academic work, expert supervision, or institutional requirements.</p></div></section>
 
       <section className="container max-w-5xl py-16"><SectionHeading eyebrow="What you receive" title="A structured document you can use to plan your next step." /><div className="mt-10 flex flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:gap-3">{deliverableSteps.map((step, index) => <div key={step} className="flex flex-col items-center gap-2 sm:flex-1 sm:flex-row"><div className="w-full rounded-md border border-border bg-card px-4 py-4 text-center text-sm font-medium">{step}</div>{index < deliverableSteps.length - 1 ? <span className="text-muted-foreground sm:shrink-0" aria-hidden="true">↓</span> : null}</div>)}</div><div className="mt-6 rounded-lg border border-border bg-muted/20 p-5 text-sm leading-7 text-muted-foreground"><p>The final research pack will be delivered as a structured digital document. Its contents depend on the selected package, the available literature, and the scope confirmed before payment.</p></div></section>
 
