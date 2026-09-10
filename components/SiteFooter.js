@@ -8,6 +8,7 @@ export default function SiteFooter() {
         <nav aria-label="Footer navigation" className="flex flex-wrap gap-x-5 gap-y-2">
           <Link href="/about" className="hover:text-foreground">About</Link>
           <Link href="/research-topics" className="hover:text-foreground">Research Topics</Link>
+          <Link href="/research-services" className="hover:text-foreground">Research Services</Link>
           <Link href="/contact" className="hover:text-foreground">Contact</Link>
           <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
           <Link href="/terms" className="hover:text-foreground">Terms</Link>

@@ -76,6 +76,12 @@ export default async function sitemap() {
       changeFrequency: "weekly",
       priority: 0.8,
     },
+    {
+      url: `${SITE_URL}/research-services`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
     ...topicEntries,
     ...(await paperEntries(now)),
   ];
