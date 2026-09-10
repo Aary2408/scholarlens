@@ -1,6 +1,7 @@
 import "./globals.css";
 import Script from "next/script";
 import CookieNotice from "@/components/CookieNotice";
+import SiteFooter from "@/components/SiteFooter";
 
 const SITE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://scholarlens-iota.vercel.app";
 const SITE_NAME = "ScholarLens";
@@ -107,7 +108,7 @@ gtag('config', 'G-L7M0XLQZS9');`}
         <Script id="ld-organization" type="application/ld+json" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
         <Script id="ld-website" type="application/ld+json" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }} />
       </head>
-      <body>{children}<CookieNotice /></body>
+      <body>{children}<SiteFooter /><CookieNotice /></body>
     </html>
   );
 }

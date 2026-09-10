@@ -173,11 +173,17 @@ function topicLinks(paper) {
 function PaperSeoContent({ paper }) {
   const topics = topicLinks(paper);
   const relatedWorks = (paper.related_work_ids || []).filter((id) => id !== paper.id);
+  const hasCitationContext = Number(paper.citation_count) > 0;
 
   return (
     <section className="container max-w-5xl border-t border-border/60 py-10">
       <h2 className="text-2xl font-semibold tracking-[-0.03em]">About this research paper</h2>
-      {paper.abstract ? <p className="mt-4 max-w-4xl text-base leading-8 text-foreground/80">{paper.abstract}</p> : null}
+      <div className="mt-6 grid gap-5 sm:grid-cols-2">
+        <section className="rounded-lg border border-border bg-card p-5"><h3 className="font-semibold">What this paper is about</h3><p className="mt-2 text-sm leading-6 text-foreground/80">{paper.abstract || "An abstract is not available in the OpenAlex record for this paper."}</p></section>
+        <section className="rounded-lg border border-border bg-card p-5"><h3 className="font-semibold">Why it matters</h3><p className="mt-2 text-sm leading-6 text-foreground/80">{hasCitationContext ? `OpenAlex reports ${paper.citation_count} citations for this work. Citation counts describe recorded attention and do not establish research quality.` : "A significance statement is not available in the OpenAlex record."}</p></section>
+        {[["Key contribution", "A contribution statement is not available in the OpenAlex record."], ["Method / approach", "Method details are not available in the OpenAlex metadata."], ["Main findings", "Findings are not separately available in the OpenAlex metadata."], ["Limitations", "Limitations are not available in the OpenAlex metadata."], ["Applications", "Application details are not available in the OpenAlex metadata."]].map(([title, text]) => <section key={title} className="rounded-lg border border-border bg-card p-5"><h3 className="font-semibold">{title}</h3><p className="mt-2 text-sm leading-6 text-muted-foreground">{text}</p></section>)}
+      </div>
+      {paper.abstract ? <div className="mt-8"><h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-muted-foreground">Available abstract</h3><p className="mt-3 max-w-4xl text-base leading-8 text-foreground/80">{paper.abstract}</p></div> : null}
       {topics.length ? (
         <div className="mt-7">
           <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-muted-foreground">Research topics</h3>
@@ -195,9 +201,11 @@ function PaperSeoContent({ paper }) {
           </div>
         </div>
       ) : null}
+      {paper.concepts?.length ? null : <p className="mt-7 text-sm text-muted-foreground">Key concepts are not available in the OpenAlex record.</p>}
       <div className="mt-7 flex flex-wrap gap-5 text-sm font-medium">
         <Link href="/" className="text-primary hover:underline">Back to paper search</Link>
         <Link href="/research-topics" className="text-primary hover:underline">Browse research topics</Link>
+        {paper.landing_page_url || paper.oa_url ? <a href={paper.landing_page_url || paper.oa_url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-primary hover:underline">Original source <span aria-hidden="true">↗</span></a> : <span className="font-normal text-muted-foreground">Original source link unavailable</span>}
       </div>
     </section>
   );

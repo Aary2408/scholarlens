@@ -16,10 +16,9 @@ async function paperEntries(now) {
 
     const payload = await response.json();
     return (payload?.results || [])
-      .map((work) => work?.id)
-      .filter(Boolean)
-      .map((id) => ({
-        url: `${SITE_URL}/paper/${encodeURIComponent(id)}`,
+      .filter((work) => work?.id && work?.title && (work?.abstract_inverted_index || work?.abstract))
+      .map((work) => ({
+        url: `${SITE_URL}/paper/${encodeURIComponent(work.id)}`,
         lastModified: now,
         changeFrequency: "monthly",
         priority: 0.6,
@@ -49,6 +48,24 @@ export default async function sitemap() {
     },
     {
       url: `${SITE_URL}/privacy`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: `${SITE_URL}/about`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: `${SITE_URL}/contact`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: `${SITE_URL}/terms`,
       lastModified: now,
       changeFrequency: "yearly",
       priority: 0.3,

@@ -29,7 +29,7 @@ export default function CookieNotice() {
       <div className="flex items-start gap-4">
         <div className="flex-1 text-sm leading-6 text-foreground/80">
           <p className="font-medium text-foreground">This site uses cookies</p>
-          <p className="mt-1 text-muted-foreground">We use cookies for basic analytics (Google Analytics) and to serve ads (Google AdSense). No personal profile is built by us. See our <Link href="/privacy" className="underline underline-offset-2 hover:text-foreground">privacy note</Link> for details.</p>
+          <p className="mt-1 text-muted-foreground">We use cookies for basic analytics (Google Analytics) and to serve ads (Google AdSense). No personal profile is built by us. See our <Link href="/privacy" className="underline underline-offset-2 hover:text-foreground">Privacy Policy</Link> for details.</p>
         </div>
         <button aria-label="Dismiss" onClick={() => dismiss("dismissed")} className="rounded-md p-1 text-muted-foreground hover:text-foreground">
           <X className="h-4 w-4" />

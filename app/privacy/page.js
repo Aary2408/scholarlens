@@ -1,24 +1,27 @@
-export const metadata = { title: "Privacy — ScholarLens" };
+import Link from "next/link";
+
+const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
+
+export const metadata = {
+  title: "Privacy Policy",
+  description: "How ScholarLens handles account information, saved research, analytics, cookies, advertising, and privacy requests.",
+  alternates: { canonical: "/privacy" },
+  openGraph: { type: "website", title: "Privacy Policy | ScholarLens", description: "How ScholarLens handles account information, saved research, analytics, cookies, advertising, and privacy requests.", url: "/privacy" },
+  twitter: { card: "summary", title: "Privacy Policy | ScholarLens", description: "How ScholarLens handles account information, saved research, analytics, cookies, advertising, and privacy requests." },
+};
 
 export default function PrivacyPage() {
   return (
-    <main className="min-h-screen bg-background">
-      <div className="container mx-auto max-w-3xl py-16">
-        <h1 className="text-3xl font-semibold tracking-[-0.03em]">Privacy note</h1>
-        <div className="prose prose-sm mt-8 space-y-6 text-foreground/80">
-          <p>ScholarLens is a research-first paper search and reading platform. We keep this note short and plain.</p>
-          <h2 className="mt-8 text-lg font-semibold text-foreground">What we store</h2>
-          <ul className="list-disc space-y-2 pl-6">
-            <li>Paper metadata fetched from OpenAlex (a public scholarly index).</li>
-            <li>If you sign in with a magic link, your email address, and the papers, tags, and notes you save.</li>
-            <li>Selected-text explanations you request from the reading assistant, cached to avoid duplicate LLM calls.</li>
-          </ul>
-          <h2 className="mt-8 text-lg font-semibold text-foreground">Cookies and analytics</h2>
-          <p>We use Google Analytics 4 to see aggregate visitor counts and Google AdSense to show ads on the search sidebar and paper footer. These may set cookies. We do not build our own profile of you.</p>
-          <h2 className="mt-8 text-lg font-semibold text-foreground">Contact</h2>
-          <p>Questions or deletion requests: email the address in your Supabase account settings.</p>
-        </div>
-      </div>
-    </main>
+    <main className="min-h-screen bg-background"><article className="container max-w-3xl py-16 lg:py-20"><p className="text-sm font-medium text-muted-foreground">Last updated: September 10, 2026</p><h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] sm:text-5xl">Privacy Policy</h1><div className="mt-10 space-y-8 text-[16px] leading-7 text-foreground/80">
+      <section><h2 className="text-xl font-semibold text-foreground">Information we collect</h2><p className="mt-3">ScholarLens may collect information needed to provide the service: OpenAlex paper metadata requested by visitors; account information such as an email address when you sign in; papers, tags, and notes you save in your library; selected text and related request information when you use the reading assistant; and technical or usage information provided through analytics, cookies, and server logs.</p></section>
+      <section><h2 className="text-xl font-semibold text-foreground">Accounts and saved content</h2><p className="mt-3">Authentication is provided through Supabase. Your email address is used to support sign-in and account-related communication. Saved papers, tags, and notes are stored to provide the library feature. Do not save content you do not have the right to store.</p></section>
+      <section><h2 className="text-xl font-semibold text-foreground">Analytics and cookies</h2><p className="mt-3">ScholarLens uses Google Analytics 4 to understand aggregate visits and feature usage. Google Analytics may use cookies or similar technologies. The site also uses a local storage preference for the cookie notice. Cookies and similar technologies may not be available or may be controlled by your browser.</p></section>
+      <section><h2 className="text-xl font-semibold text-foreground">Google AdSense and advertising</h2><p className="mt-3">ScholarLens uses Google AdSense and third-party advertising vendors to display ads in designated areas of the site. Google and its partners may use advertising cookies or similar technologies to measure ads, limit repetition, and, where permitted by your choices and applicable law, show personalized advertising based on browsing activity. ScholarLens does not sell your personal information or build its own advertising profile.</p><p className="mt-3">You can manage or opt out of personalized advertising through Google&apos;s <a href="https://adssettings.google.com/" target="_blank" rel="noreferrer" className="text-primary hover:underline">Ads Settings</a>. You can also manage cookies through your browser settings and use available industry opt-out controls. Blocking cookies may affect some site functionality or advertising preferences.</p></section>
+      <section><h2 className="text-xl font-semibold text-foreground">External links</h2><p className="mt-3">Paper pages can link to OpenAlex, publishers, repositories, and other external sites. Their privacy practices are controlled by those sites, not ScholarLens. Review their policies before submitting information.</p></section>
+      <section><h2 className="text-xl font-semibold text-foreground">Retention and deletion requests</h2><p className="mt-3">We retain account and saved library information while it is needed to provide the requested features or comply with applicable obligations. Analytics, advertising, and external providers may retain information under their own policies. To request access, correction, or deletion of account information or saved content, contact us through the <Link href="/contact" className="text-primary hover:underline">Contact page</Link>. We may need to verify a request and may retain limited information where required for security or legal reasons.</p></section>
+      <section><h2 className="text-xl font-semibold text-foreground">Security</h2><p className="mt-3">We use reasonable technical and organizational measures appropriate to the service, but no online service can guarantee absolute security. Protect your account credentials and contact us promptly about suspected unauthorized access.</p></section>
+      <section><h2 className="text-xl font-semibold text-foreground">Policy updates</h2><p className="mt-3">We may update this policy when the service, providers, or legal requirements change. The updated version and its date will be posted on this page.</p></section>
+      <section><h2 className="text-xl font-semibold text-foreground">Contact</h2><p className="mt-3">Privacy questions and requests may be sent to {contactEmail ? <a className="text-primary hover:underline" href={`mailto:${contactEmail}`}>{contactEmail}</a> : "the public contact email configured by the site owner"}.</p></section>
+    </div></article></main>
   );
 }
