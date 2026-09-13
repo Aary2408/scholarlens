@@ -88,9 +88,8 @@ export default function RootLayout({ children }) {
       <head>
         <meta name="google-adsense-account" content="ca-pub-9144354248628915" />
         <meta name="google-site-verification" content="pf09C0s-IixLwKGWn98aCFH_c0oTVH15L4TOkS8q74U" />
-        <Script
+        <script
           async
-          strategy="afterInteractive"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9144354248628915"
           crossOrigin="anonymous"
         />
