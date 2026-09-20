@@ -121,6 +121,9 @@ export async function GET(request, context) {
   try {
     const { path = [] } = await context.params;
     const route = path[0];
+    if (!["search", "paper", "library"].includes(route)) {
+      return NextResponse.json({ error: "Route not found." }, { status: 404 });
+    }
     const client = databaseClient(request);
     if (route === "search") {
       const query = request.nextUrl.searchParams.get("q")?.trim();
@@ -164,6 +167,9 @@ export async function POST(request, context) {
   try {
     const { path = [] } = await context.params;
     const route = path[0];
+    if (!["explain", "library"].includes(route)) {
+      return NextResponse.json({ error: "Route not found." }, { status: 404 });
+    }
     const body = await request.json();
     const client = databaseClient(request);
     if (route === "explain") {
