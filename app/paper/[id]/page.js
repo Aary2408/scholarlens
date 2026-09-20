@@ -197,7 +197,7 @@ function PaperSeoContent({ paper }) {
         <div className="mt-7">
           <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-muted-foreground">Related papers</h3>
           <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
-            {relatedWorks.map((id, index) => <Link key={id} href={`/paper/${encodeURIComponent(id)}`} className="text-sm font-medium text-primary hover:underline">Related paper {index + 1}</Link>)}
+            {relatedWorks.map((id, index) => <Link prefetch={false} key={id} href={`/paper/${encodeURIComponent(id)}`} className="text-sm font-medium text-primary hover:underline">Related paper {index + 1}</Link>)}
           </div>
         </div>
       ) : null}
