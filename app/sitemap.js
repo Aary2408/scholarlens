@@ -1,4 +1,5 @@
 import { researchTopics } from "@/lib/research-topics";
+import { researchGuides } from "@/lib/research-guides";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_BASE_URL ||
@@ -36,6 +37,13 @@ export default async function sitemap() {
     url: `${SITE_URL}/research-topics/${topic.slug}`,
     lastModified: now,
     changeFrequency: "weekly",
+    priority: 0.7,
+  }));
+
+  const guideEntries = researchGuides.map((guide) => ({
+    url: `${SITE_URL}/research-guides/${guide.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly",
     priority: 0.7,
   }));
 
@@ -77,12 +85,19 @@ export default async function sitemap() {
       priority: 0.8,
     },
     {
+      url: `${SITE_URL}/research-guides`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${SITE_URL}/research-services`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.6,
     },
     ...topicEntries,
+    ...guideEntries,
     ...(await paperEntries(now)),
   ];
 }
